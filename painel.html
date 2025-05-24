@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Conteúdo Exclusivo - Login</title>
+  <style>
+    /* Estilos Gerais do HTML e Body */
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-size: cover; /* A imagem de fundo cobrirá toda a área */
+      background-position: center; /* Centraliza a imagem de fundo */
+      display: flex; /* Para centralizar o container de login/painel */
+      justify-content: center; /* Centraliza horizontalmente */
+      align-items: center; /* Centraliza verticalmente */
+      color: white; /* Cor do texto padrão */
+      overflow: hidden; /* Evita barras de rolagem desnecessárias */
+    }
+
+    /* Estilo do Container de Login */
+    #login-container {
+      background-color: rgba(0,0,0,0.8); /* Fundo semi-transparente */
+      padding: 40px;
+      border-radius: 15px; /* Cantos arredondados */
+      box-shadow: 0 0 15px #00ffff; /* Sombra com cor ciano */
+      text-align: center;
+      width: 360px; /* Largura fixa para o container de login */
+      max-width: 90%; /* Responsividade para telas menores */
+      box-sizing: border-box; /* Inclui padding e borda na largura */
+      z-index: 10; /* Garante que fique acima do fundo */
+    }
+
+    /* Layout dos campos de Login e Senha Lado a Lado */
+    .input-row {
+      display: flex;
+      justify-content: space-between; /* Espaço entre os inputs */
+      gap: 15px; /* Espaçamento entre os inputs */
+      margin-bottom: 15px;
+    }
+
+    /* Estilo dos Inputs de Login e Senha */
+    input[type="text"], input[type="password"] {
+      width: 48%; /* Largura para que fiquem lado a lado */
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      outline: none; /* Remove o contorno ao focar */
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    /* Estilo do Botão de Entrar */
+    button {
+      background-color: #00ffff; /* Cor ciano */
+      color: black;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer; /* Indica que é clicável */
+      font-weight: bold;
+      margin-top: 10px;
+      width: 100%;
+      font-size: 16px;
+      transition: background-color 0.3s; /* Transição suave no hover */
+    }
+
+    button:hover {
+      background-color: #00cfcf; /* Cor ciano mais escura no hover */
+    }
+
+    /* Estilo da Mensagem de Erro */
+    .error {
+      color: #ff5555; /* Cor vermelha para erro */
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    /* Estilo do Painel (Após Login) */
+    #painel {
+      display: none; /* Inicia oculto */
+      flex-direction: column; /* Manter column para o painel principal para centralizar os botões verticalmente */
+      justify-content: center; /* Centraliza verticalmente */
+      align-items: center; /* Centraliza horizontalmente */
+      
+      /* Removendo o fundo e a sombra do painel, pois o body terá o fundo estendido */
+      background-color: transparent; 
+      box-shadow: none;
+      border-radius: 0;
+      padding: 0; /* Remove padding do painel para centralização exata */
+
+      /* Para que o painel centralize o conteúdo sobre o fundo estendido */
+      width: 100%; /* Ocupa a largura total para centralizar o conteúdo */
+      height: 100%; /* Ocupa a altura total para centralizar o conteúdo */
+      position: relative; 
+    }
+
+    /* Container para os Botões do Painel */
+    .btn-container {
+        display: flex;
+        flex-direction: row; /* Botões um ao lado do outro */
+        flex-wrap: wrap; /* Permite que os botões quebrem para a próxima linha em telas menores */
+        justify-content: center; /* Centraliza os botões horizontalmente */
+        align-items: center; /* Alinha os botões verticalmente (se estiverem em várias linhas) */
+        width: 100%; /* Ocupa a largura total do painel para centralização */
+        max-width: 1000px; /* Limita a largura máxima para que os botões não se espalhem demais */
+        padding: 20px; /* Adiciona um padding para que os botões não colem nas bordas em telas menores */
+        box-sizing: border-box; /* Inclui padding na largura total */
+    }
+
+    /* Estilo ÚNICO para TODOS os Botões do Painel */
+    .btn {
+      /* Propriedades para garantir que os botões tenham o mesmo tamanho */
+      width: 200px; /* Diminui um pouco a largura */
+      height: 70px; /* Diminui a altura */
+      line-height: 70px; /* Centraliza o texto verticalmente com a nova altura */
+      
+      background-color: #FFD700; /* Amarelo dourado */
+      color: #333; /* Texto cinza escuro para contraste */
+      padding: 0; /* Padding agora é controlado pela altura e line-height */
+      text-decoration: none; /* Remove sublinhado do link */
+      font-weight: bold;
+      border-radius: 10px;
+      display: flex; /* Usar flexbox para centralizar o texto internamente */
+      justify-content: center; /* Centraliza o texto horizontalmente */
+      align-items: center; /* Centraliza o texto verticalmente */
+      transition: all 0.3s ease; /* Transição suave para todos os efeitos */
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 1.1em; /* Diminui o tamanho da fonte */
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Sombra mais suave */
+      border: 2px solid black; /* Borda preta sólida para o contorno */
+      flex-shrink: 0; /* Evita que os botões encolham em telas menores antes do wrap */
+      flex-grow: 0; /* Evita que os botões cresçam além do tamanho definido */
+      margin: 10px; /* Adiciona margem para espaçamento entre os botões */
+    }
+
+    .btn:hover {
+      background-color: #FFA500; /* Laranja no hover */
+      border-color: #333; /* Borda cinza escuro no hover para um contraste sutil */
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      transform: translateY(-3px); /* Move um pouco menos no hover */
+    }
+
+
+    /* Responsividade */
+    @media (max-width: 999px) { /* Para telas que podem mostrar 2 botões por linha */
+        .btn {
+            width: calc(50% - 20px); /* Tenta 2 botões por linha com 20px de margem (10px de cada lado) */
+            max-width: 200px; /* Mantém a largura máxima original */
+            margin: 10px; /* Garante margem uniforme */
+        }
+    }
+
+    @media (max-width: 599px) { /* Para telas pequenas (celulares), empilha os botões */
+        .btn-container {
+            flex-direction: column; /* Botões empilhados */
+            padding: 10px;
+        }
+        .btn {
+            width: 90%; /* Ocupa 90% da largura do container */
+            max-width: 250px; /* Limite máximo para o botão em celular */
+            height: 60px; /* Ajusta a altura para telas menores */
+            line-height: 60px; /* Ajusta a centralização vertical */
+            font-size: 1em; /* Ajusta o tamanho da fonte */
+            margin: 8px 0; /* Margem apenas vertical para quando estão empilhados */
+        }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="login-container">
+    <h2>CONTEÚDO EXCLUSIVO</h2>
+    <div class="input-row">
+      <input type="text" id="login" placeholder="Login" autocomplete="off" />
+      <input type="password" id="senha" placeholder="Senha" autocomplete="off" />
+    </div>
+    <button onclick="logar()">Entrar</button>
+    <div class="error" id="erro"></div>
+  </div>
+
+  <div id="painel">
+    <div class="btn-container">
+        <a class="btn" href="https://t.me/+vru8fWsazwJhYTRh" target="_blank" rel="noopener">APPS PREMIUM</a>
+        <a class="btn" href="https://t.me/+CAyviSaFbGI4OTcx" target="_blank" rel="noopener">JOGOS PREMIUM</a>
+        <a class="btn" href="https://t.me/+3ptY6gGCTIo4NWQx" target="_blank" rel="noopener">APPS TV PREMIUM</a>
+        <a class="btn" href="https://t.me/+06ukfxdEJ8dkMzBh" target="_blank" rel="noopener">MÉTODOS VIP</a>
+    </div>
+  </div>
+
+  <script>
+    // Usuários cadastrados (login: senha)
+    const users = {
+      "henry00": "henry01"
+    };
+
+    // Função para lidar com o login
+    function logar() {
+      const login = document.getElementById('login').value.trim();
+      const senha = document.getElementById('senha').value.trim();
+      const erroDiv = document.getElementById('erro');
+      const body = document.body; // Referência ao body
+
+      if (users[login] === senha) {
+        erroDiv.innerText = ''; // Limpa mensagem de erro
+        document.getElementById('login-container').style.display = 'none'; // Oculta o container de login
+        document.getElementById('painel').style.display = 'flex'; // Exibe o painel
+
+        // Define o novo background para o body quando o login é bem-sucedido
+        body.style.backgroundImage = "url('image_38746d.jpg')"; /* image_38746d.jpg é a imagem do plano de fundo azul escuro que você enviou */
+        body.style.backgroundColor = "transparent"; // Garante que não haja cor sólida por baixo da imagem
+
+      } else {
+        erroDiv.innerText = 'Login ou senha incorretos!'; // Exibe mensagem de erro
+      }
+    }
+
+    // Define o background inicial para a tela de login ao carregar a página
+    document.body.style.backgroundImage = "url('https://images.pexels.com/photos/41949/earth-earth-at-night-night-lights-41949.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')";
+  </script>
+
+</body>
+</html>
